@@ -9,6 +9,7 @@ using CoberfuziFileManager.Data.Repositories.Class;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Domain.Controllers;
 using CoberfuziFileManager.Domain.Services;
+using CoberfuziFileManager.Domain.Services.IDGenerator;
 using CoberfuziFileManager.Models;
 using CoberfuziFileManager.ViewModels;
 using CoberfuziFileManager.Views;
@@ -35,6 +36,9 @@ public partial class App : Application
         services.AddDbContext<AppDbContext>();
         services.AddScoped<IEntityRepository<Client>, ClientRepository>();
         services.AddScoped<IEntityRepository<Supplier>, SupplierRepository>();
+
+        services.AddScoped<IDGenerator>();
+        
         services.AddScoped<ClientService>();
         services.AddScoped<SupplierService>();
         services.AddScoped<EntityController>();
@@ -44,6 +48,18 @@ public partial class App : Application
     
     public override void OnFrameworkInitializationCompleted()
     {
+
+        using (var scope = ServiceProvider.CreateScope())
+        {
+            
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            dbContext.Database.EnsureDeleted();
+            Console.WriteLine("DroppedExistingTable");
+
+            dbContext.Database.EnsureCreated();
+            Console.WriteLine("CreatedTable");
+        }
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = ServiceProvider.GetRequiredService<MainWindow>();

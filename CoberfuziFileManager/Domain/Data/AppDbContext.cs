@@ -34,19 +34,19 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Entity>()
             .HasIndex(u => u.Name)
             .IsUnique();
-        
+
+        modelBuilder.Entity<Entity>()
+            .HasIndex(u => u.Nif)
+            .IsUnique();
+
     }
 
     private void ClientModelSeed(ModelBuilder modelBuilder)
     {
 
         modelBuilder.Entity<Client>()
-            .HasIndex(u => u.ClientId)
+            .HasIndex(c => c.ClientId)
             .IsUnique();
-
-        modelBuilder.Entity<Client>()
-            .Property(u => u.ClientId)
-            .ValueGeneratedOnAdd();
 
     }
 
@@ -54,12 +54,9 @@ public class AppDbContext : DbContext
     {
 
         modelBuilder.Entity<Supplier>()
-            .HasIndex(u => u.SupplierID)
+            .HasIndex(s => s.SupplierID)
             .IsUnique();
 
-        modelBuilder.Entity<Supplier>()
-            .Property(u => u.SupplierID)
-            .ValueGeneratedOnAdd();
 
     }
     

@@ -23,7 +23,7 @@ public class EntityController
         _clientService.AddClient(client);
     }
 
-    public Entity GetClientById(int id)
+    public Client GetClientById(int id)
     {
         return _clientService.GetClientById(id);
     }
@@ -35,7 +35,7 @@ public class EntityController
         _supplierService.AddSupplier(supplier);
     }
 
-    public Entity GetSupplierById(int id)
+    public Supplier GetSupplierById(int id)
     {
         return _supplierService.GetSupplierById(id);
     }

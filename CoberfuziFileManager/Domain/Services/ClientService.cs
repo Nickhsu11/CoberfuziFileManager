@@ -7,14 +7,17 @@ public class ClientService
 {
     
     private readonly IEntityRepository<Client> _clientRepository;
+    private readonly IDGenerator.IDGenerator _idGenerator;
 
-    public ClientService(IEntityRepository<Client> clientRepository)
+    public ClientService(IEntityRepository<Client> clientRepository, IDGenerator.IDGenerator idGenerator)
     {
         _clientRepository = clientRepository;
+        _idGenerator = idGenerator;
     }
 
     public void AddClient(Client client)
     {
+        client.ClientId = _idGenerator.GetNextClientID();
         _clientRepository.Add(client);
     }
 
