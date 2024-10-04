@@ -8,6 +8,7 @@ public class AppDbContext : DbContext
     
     public DbSet<Client> Clients { get; set; }
     public DbSet<Supplier> Suppliers{ get; set; }
+    public DbSet<Work> Works { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -20,6 +21,8 @@ public class AppDbContext : DbContext
         EntityModelSeed(modelBuilder);
         ClientModelSeed(modelBuilder);
         SupplierModelSeed(modelBuilder);
+        
+        WorkModelSeed(modelBuilder);
         
     }
 
@@ -48,6 +51,15 @@ public class AppDbContext : DbContext
             .HasIndex(c => c.ClientId)
             .IsUnique();
 
+        // Set's the relation ship between Client and Work
+        // Beeing this Many Works can belong to one Client and
+        // a Client only belongs to one work, and we can find the works
+        // through the foreign key
+        modelBuilder.Entity<Client>()
+            .HasMany(c => c.Works)
+            .WithOne(w => w.Client)
+            .HasForeignKey(w => w.ClientID);
+
     }
 
     private void SupplierModelSeed(ModelBuilder modelBuilder)
@@ -55,6 +67,15 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Supplier>()
             .HasIndex(s => s.SupplierID)
+            .IsUnique();
+        
+    }
+
+    private void WorkModelSeed(ModelBuilder modelBuilder)
+    {
+
+        modelBuilder.Entity<Work>()
+            .HasIndex(w => w.WorkID)
             .IsUnique();
 
 

@@ -28,4 +28,12 @@ public class IDGenerator
             .Select(s => s.SupplierID)
             .FirstOrDefault() + 1;
     }
+
+    public int GetNextWorkID()
+    {
+        return _context.Works
+            .OrderByDescending(w => w.WorkID)
+            .Select(w => w.WorkID)
+            .FirstOrDefault() + 1;
+    }
 }

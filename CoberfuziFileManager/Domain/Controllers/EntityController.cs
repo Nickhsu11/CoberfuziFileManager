@@ -20,7 +20,7 @@ public class EntityController
     // Client-related methods
     public void AddClient(Client client)
     {
-        _clientService.AddClient(client);
+        _clientService.AddClientAsync(client);
     }
 
     public Client GetClientById(int id)
@@ -39,5 +39,7 @@ public class EntityController
     {
         return _supplierService.GetSupplierById(id);
     }
+    
+    // Work-related methods
     
 }

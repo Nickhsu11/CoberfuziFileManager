@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Models;
 
@@ -7,19 +8,22 @@ public class SupplierService
 {
     
     private readonly IEntityRepository<Supplier> _supplierRepository;
+    private readonly IDGenerator.IDGenerator _idGenerator;
 
-    public SupplierService(IEntityRepository<Supplier> supplierRepository)
+    public SupplierService(IEntityRepository<Supplier> supplierRepository, IDGenerator.IDGenerator idGenerator)
     {
         _supplierRepository = supplierRepository;
+        _idGenerator = idGenerator;
     }
 
-    public void AddSupplier(Supplier supplier)
+    public async Task AddSupplierAsync(Supplier supplier)
     {
-        _supplierRepository.Add(supplier);
+        supplier.SupplierID = _idGenerator.GetNextSupplierID();
+        await _supplierRepository.AddAsync(supplier);
     }
 
-    public Supplier GetSupplierById(int supplierId)
+    public async Task<Supplier> GetSupplierByIdAsync(int supplierId)
     {
-        return _supplierRepository.GetById(supplierId);
+        return await _supplierRepository.GetByIdAsync(supplierId);
     }
 }

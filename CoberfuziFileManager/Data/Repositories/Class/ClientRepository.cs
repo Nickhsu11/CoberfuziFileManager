@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Models;
 using Microsoft.Data.Sqlite;
@@ -18,12 +19,12 @@ public class ClientRepository : IEntityRepository<Client>
         _context = context;
     }
 
-    public void Add(Client entity)
+    public async Task AddAsync(Client entity)
     {
         try
         {
-            _context.Clients.Add(entity);
-            _context.SaveChanges();
+            await _context.Clients.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
         catch (DbUpdateException ex) when (ex.InnerException is SqliteException sqliteEx)
         {
@@ -46,14 +47,21 @@ public class ClientRepository : IEntityRepository<Client>
         }
     }
 
-    public Client GetById(int id)
+    public async Task<Client> GetByIdAsync(int id)
     {
-        return _context.Clients.Find(id);
+        return await _context.Clients.FindAsync(id);
+    }
+    
+    public async Task UpdateAsync(Client entity)
+    {
+        _context.Clients.Update(entity);
+        await _context.SaveChangesAsync();
     }
 
+    /*
     public Client GetByNif(int nif)
     {
-        return _context.Clients.Find(nif);
+        return _context.Clients.FirstOrDefault(client => client.Nif == nif);
     }
 
     public bool CheckIfExists(Client entity)
@@ -66,10 +74,6 @@ public class ClientRepository : IEntityRepository<Client>
         return _context.Clients.ToList();
     }
 
-    public void Update(Client entity)
-    {
-        _context.Clients.Update(entity);
-    }
 
     public void Delete(int id)
     {
@@ -79,6 +83,11 @@ public class ClientRepository : IEntityRepository<Client>
             _context.Clients.Remove(client);
             _context.SaveChanges();
         }
+        else
+        {
+            Console.WriteLine($"Client with {id} not found. ");
+        }
     }
+    */
 
 }
