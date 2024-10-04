@@ -5,7 +5,9 @@ using Avalonia.ReactiveUI;
 using ReactiveUI;
 
 using System;
+using AutoMapper;
 using CoberfuziFileManager.Domain.Controllers;
+using CoberfuziFileManager.Domain.DTOs;
 using CoberfuziFileManager.Models;
 using CoberfuziFileManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,9 +18,13 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
 {
 
     private readonly EntityController _entityController;
-    public MainWindow(EntityController entityController)
+    private readonly IMapper _mapper;
+    
+    public MainWindow(EntityController entityController, IMapper mapper)
     {
         _entityController = entityController ?? throw new ArgumentNullException(nameof(entityController));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        
         InitializeComponent();
         RunConsoleTests();
     }
@@ -28,7 +34,7 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
         AvaloniaXamlLoader.Load(this);
     }
 
-    private void RunConsoleTests()
+    private async void RunConsoleTests()
     {
 
         Console.WriteLine("Testing Entity Controller Operations: ");
@@ -55,36 +61,35 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
             PostCode = "2620-090",
         };
         
-        _entityController.AddClient(client);
-        _entityController.AddClient(client2);
+        _entityController.AddClient( _mapper.Map<ClientCompleteDTO>(client));
+        _entityController.AddClient( _mapper.Map<ClientCompleteDTO>(client2));
 
-        var clients = _entityController.GetClientById(1);
-        Console.WriteLine($" ID: {clients.Id}" +
-                          $"\n Name: {clients.Name}" +
-                          $"\n Phone: {clients.Phone}" +
-                          $"\n Email: {clients.Email}" +
-                          $"\n Address: {clients.Address}" +
-                          $"\n PostCode: {clients.PostCode}" +
-                          $"\n Nif: {clients.Nif}" +
-                          $"\n ClientID: {clients.ClientId}"); 
+        var clients = await _entityController.GetClientById(1);
+        Console.WriteLine(ClientDTOtoString(clients));
         
-        var clients2 = _entityController.GetClientById(2);
+        var clients2 = await _entityController.GetClientById(2);
+        Console.WriteLine(ClientDTOtoString(clients2));
+    }
+
+    private string ClientDTOtoString(ClientCompleteDTO clientDTO)
+    {
+        if (clientDTO == null) return "Client not found.";
         
-        if (clients2 != null)
+        var works = "";
+        foreach (var currentWork in clientDTO.Works)
         {
-            Console.WriteLine($" ID: {clients2.Id}" +
-                              $"\n Name: {clients2.Name}" +
-                              $"\n Phone: {clients2.Phone}" +
-                              $"\n Email: {clients2.Email}" +
-                              $"\n Address: {clients2.Address}" +
-                              $"\n PostCode: {clients2.PostCode}" +
-                              $"\n Nif: {clients2.Nif}" +
-                              $"\n ClientID: {clients2.ClientId}"); 
+            works += $"\n WorkID: {currentWork.WorkID}" +
+                     $"\n Address: {currentWork.Address} \n";
         }
-        else
-        {
-            Console.WriteLine("The Client does not exist. ");
-        }
+        
+        return ($"ID: {clientDTO.ClientID} " +
+                $"\n Name: {clientDTO.Name} " +
+                $"\n Phone: {clientDTO.Phone} " +
+                $"\n Email: {clientDTO.Email} " +
+                $"\n Address: {clientDTO.Address} " +
+                $"\n PostCode: {clientDTO.PostCode} " +
+                $"\n Nif: {clientDTO.Nif} " +
+                $"\n Works: {works}");
     }
     
     

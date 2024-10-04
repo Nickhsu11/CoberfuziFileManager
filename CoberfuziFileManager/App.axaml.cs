@@ -8,11 +8,16 @@ using CoberfuziFileManager.Data;
 using CoberfuziFileManager.Data.Repositories.Class;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Domain.Controllers;
+using CoberfuziFileManager.Domain.DTOs;
+using CoberfuziFileManager.Domain.Mappings;
 using CoberfuziFileManager.Domain.Services;
 using CoberfuziFileManager.Domain.Services.IDGenerator;
+using CoberfuziFileManager.Domain.Validatores.Client;
 using CoberfuziFileManager.Models;
 using CoberfuziFileManager.ViewModels;
 using CoberfuziFileManager.Views;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoberfuziFileManager;
@@ -36,12 +41,17 @@ public partial class App : Application
         services.AddDbContext<AppDbContext>();
         services.AddScoped<IEntityRepository<Client>, ClientRepository>();
         services.AddScoped<IEntityRepository<Supplier>, SupplierRepository>();
+        services.AddScoped<IWorkRepository, WorkRepository>();
 
         services.AddScoped<IDGenerator>();
         
         services.AddScoped<ClientService>();
         services.AddScoped<SupplierService>();
         services.AddScoped<EntityController>();
+
+        services.AddAutoMapper(typeof(MappingProfile));
+
+        services.AddScoped<IValidator<ClientCompleteDTO>, ClientCompleteDTOValidator>();
 
         services.AddSingleton<MainWindow>();
     }
