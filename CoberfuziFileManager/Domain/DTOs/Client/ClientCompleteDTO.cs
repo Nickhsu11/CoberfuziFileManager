@@ -15,5 +15,4 @@ public class ClientCompleteDTO
     public int ClientID { get; set; }
     public ICollection<WorkCompleteDTO> Works { get; set; } = new List<WorkCompleteDTO>();
     
-    
 }

@@ -27,6 +27,5 @@ public abstract class Entity
     [Required]
     public string PostCode { get; set; }
     
-    
     public string Description { get; set; }
 }

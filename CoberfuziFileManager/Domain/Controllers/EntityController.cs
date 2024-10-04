@@ -6,6 +6,7 @@ using CoberfuziFileManager.Domain.DTOs;
 using CoberfuziFileManager.Domain.Services;
 using CoberfuziFileManager.Domain.Validatores.Client;
 using CoberfuziFileManager.Models;
+using FluentValidation;
 
 namespace CoberfuziFileManager.Domain.Controllers;
 
@@ -15,11 +16,11 @@ public class EntityController
     private readonly ClientService _clientService;
     private readonly SupplierService _supplierService;
 
-    private readonly ClientCompleteDTOValidator _clientValidator;
+    private readonly IValidator<ClientCompleteDTO> _clientValidator;
     private readonly IMapper _mapper;
 
     public EntityController(ClientService clientService, SupplierService supplierService, 
-        ClientCompleteDTOValidator clientValidator, IMapper mapper )
+        IValidator<ClientCompleteDTO> clientValidator, IMapper mapper )
     {
         _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
         _supplierService = supplierService ?? throw new ArgumentNullException(nameof(supplierService));

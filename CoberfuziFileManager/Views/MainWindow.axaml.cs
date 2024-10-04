@@ -46,7 +46,7 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
             Description = "Primeiro cliente para testes",
             Email = "CheprazovDanylo@gmail.com",
             Nif = 508499089 ,
-            Phone = "+351 930 430 053",
+            Phone = "+351930430053",
             PostCode = "2620-090",
         };
 
@@ -57,7 +57,7 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
             Description = "Primeiro cliente para testes",
             Email = "CheprazovDanylo@gmail.com",
             Nif = 508499089 ,
-            Phone = "+351 930 430 053",
+            Phone = "+35193043053",
             PostCode = "2620-090",
         };
         

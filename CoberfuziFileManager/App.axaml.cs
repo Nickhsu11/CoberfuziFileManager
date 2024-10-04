@@ -47,10 +47,11 @@ public partial class App : Application
         
         services.AddScoped<ClientService>();
         services.AddScoped<SupplierService>();
+        
         services.AddScoped<EntityController>();
 
         services.AddAutoMapper(typeof(MappingProfile));
-
+        
         services.AddScoped<IValidator<ClientCompleteDTO>, ClientCompleteDTOValidator>();
 
         services.AddSingleton<MainWindow>();
@@ -65,7 +66,7 @@ public partial class App : Application
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             dbContext.Database.EnsureDeleted();
             Console.WriteLine("DroppedExistingTable");
-
+            
             dbContext.Database.EnsureCreated();
             Console.WriteLine("CreatedTable");
         }
