@@ -7,10 +7,10 @@ namespace CoberfuziFileManager.Domain.Services;
 public class SupplierService
 {
     
-    private readonly IEntityRepository<Supplier> _supplierRepository;
+    private readonly ISupplierRepository _supplierRepository;
     private readonly IDGenerator.IDGenerator _idGenerator;
 
-    public SupplierService(IEntityRepository<Supplier> supplierRepository, IDGenerator.IDGenerator idGenerator)
+    public SupplierService(ISupplierRepository supplierRepository, IDGenerator.IDGenerator idGenerator)
     {
         _supplierRepository = supplierRepository;
         _idGenerator = idGenerator;
@@ -24,6 +24,7 @@ public class SupplierService
 
     public async Task<Supplier> GetSupplierByIdAsync(int supplierId)
     {
-        return await _supplierRepository.GetByIdAsync(supplierId);
+        return await _supplierRepository.GetSupplierByIDAsync(supplierId);
     }
+    
 }

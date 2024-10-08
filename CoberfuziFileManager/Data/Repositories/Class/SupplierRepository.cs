@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoberfuziFileManager.Data.Repositories.Class;
 
-public class SupplierRepository : IEntityRepository<Supplier>
+public class SupplierRepository : ISupplierRepository
 {
 
     private readonly AppDbContext _context;
@@ -34,11 +34,11 @@ public class SupplierRepository : IEntityRepository<Supplier>
             {
                 if (sqliteEx.Message.Contains("Nif"))
                 {
-                    Console.WriteLine("A Client with the given NIF already exists.");
+                    Console.WriteLine("A Supplier with the given NIF already exists.");
                 } 
                 else if (sqliteEx.Message.Contains("Name"))
                 {
-                    Console.WriteLine("A Client with the given Name already exists.");
+                    Console.WriteLine("A Supplier with the given Name already exists.");
                 }
                 else
                 {
@@ -57,6 +57,11 @@ public class SupplierRepository : IEntityRepository<Supplier>
     {
         _context.Suppliers.Update(entity);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<Supplier> GetSupplierByIDAsync(int supplierId)
+    {
+        return await _context.Suppliers.FirstOrDefaultAsync(s => s.SupplierID == supplierId);
     }
 
     /*

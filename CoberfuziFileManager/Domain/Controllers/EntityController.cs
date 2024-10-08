@@ -17,15 +17,19 @@ public class EntityController
     private readonly SupplierService _supplierService;
 
     private readonly IValidator<ClientCompleteDTO> _clientValidator;
+    private readonly IValidator<SupplierCompleteDTO> _supplierValidator;
+    
     private readonly IMapper _mapper;
 
     public EntityController(ClientService clientService, SupplierService supplierService, 
-        IValidator<ClientCompleteDTO> clientValidator, IMapper mapper )
+        IValidator<ClientCompleteDTO> clientValidator, IMapper mapper, IValidator<SupplierCompleteDTO> supplierValidator)
     {
         _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
         _supplierService = supplierService ?? throw new ArgumentNullException(nameof(supplierService));
 
         _clientValidator = clientValidator ?? throw new ArgumentNullException(nameof(clientValidator));
+        _supplierValidator = supplierValidator ?? throw new ArgumentNullException(nameof(supplierValidator));
+        
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
     }
@@ -50,10 +54,10 @@ public class EntityController
         
     }
 
-    public async Task<ClientCompleteDTO> GetClientById(int id)
+    public async Task<ClientCompleteDTO> GetClientById(int clientID)
     {
         
-        var client = await _clientService.GetClientByIdAsync(id);
+        var client = await _clientService.GetClientByIdAsync(clientID);
         if (client is null) return null;
         
         var clientDTO = _mapper.Map<ClientCompleteDTO>(client);
@@ -63,15 +67,31 @@ public class EntityController
     
     
     // Supplier-related methods
-    public void AddSupplier(Supplier supplier)
+    public async void AddSupplier(SupplierCompleteDTO supplier)
     {
-        //_supplierService.AddSupplier(supplier);
+        var validationResult = await _supplierValidator.ValidateAsync(supplier);
+        if (!validationResult.IsValid)
+        {
+            foreach (var failure in validationResult.Errors)
+            {
+                Console.WriteLine($"Property {failure.PropertyName} failed validation. Error: {failure.ErrorMessage}");
+            }
+
+            return;
+        }
+        
+        var realSupplier = _mapper.Map<Supplier>(supplier);
+        await _supplierService.AddSupplierAsync(realSupplier);
     }
 
-    public Supplier GetSupplierById(int id)
+    public async Task<SupplierCompleteDTO> GetSupplierById(int SupplierID)
     {
-        return null;
-        //return _supplierService.GetSupplierById(id);
+        var supplier = await _supplierService.GetSupplierByIdAsync(SupplierID);
+        if (supplier == null) return null;
+        
+        var supplierDTO = _mapper.Map<SupplierCompleteDTO>(supplier);
+        return supplierDTO;
+
     }
     
     // Work-related methods

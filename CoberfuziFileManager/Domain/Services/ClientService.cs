@@ -9,12 +9,12 @@ namespace CoberfuziFileManager.Domain.Services;
 public class ClientService
 {
     
-    private readonly IEntityRepository<Client> _clientRepository;
+    private readonly IClientRepository _clientRepository;
     private readonly IWorkRepository _workRepository;
     
     private readonly IDGenerator.IDGenerator _idGenerator;
 
-    public ClientService(IEntityRepository<Client> clientRepository, 
+    public ClientService(IClientRepository clientRepository, 
         IDGenerator.IDGenerator idGenerator, IWorkRepository workRepository)
     {
         _clientRepository = clientRepository;
@@ -30,7 +30,7 @@ public class ClientService
 
     public async Task<Client> GetClientByIdAsync(int id)
     {
-        return await _clientRepository.GetByIdAsync(id);
+        return await _clientRepository.GetClientByIdAsync(id);
     }
 
     public async Task AddWorkToClient(Work work, int clientId)

@@ -45,7 +45,7 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
             Address = "Rua Bartolomeu Dias",
             Description = "Primeiro cliente para testes",
             Email = "CheprazovDanylo@gmail.com",
-            Nif = 508499089 ,
+            Nif = 508499023 ,
             Phone = "+351930430053",
             PostCode = "2620-090",
         };
@@ -69,6 +69,40 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
         
         var clients2 = await _entityController.GetClientById(2);
         Console.WriteLine(ClientDTOtoString(clients2));
+        
+        
+        var supplier = new Supplier
+        {
+            Name = "Danylo Teste3",
+            Address = "Rua Bartolomeu Dias",
+            Description = "Primeiro supplier para testes",
+            Email = "CheprazovDanylo@gmail.com",
+            Nif = 508499012 ,
+            Phone = "+351930430053",
+            PostCode = "2620-090",
+        };
+        
+        var supplier2 = new Supplier
+        {
+            Name = "Danylo Teste4",
+            Address = "Rua Bartolomeu Dias",
+            Description = "Segundo supplier para testes",
+            Email = "CheprazovDanylo@gmail.com",
+            Nif = 508499031 ,
+            Phone = "+351930430053",
+            PostCode = "2620-090",
+        };
+        
+        _entityController.AddSupplier( _mapper.Map<SupplierCompleteDTO>(supplier));
+        _entityController.AddSupplier( _mapper.Map<SupplierCompleteDTO>(supplier2));
+
+        var suppliers = await _entityController.GetSupplierById(1);
+        Console.WriteLine(SupplierDTOtoString(suppliers)); 
+        
+        var suppliers2 = await _entityController.GetSupplierById(2);
+        Console.WriteLine(SupplierDTOtoString(suppliers2));
+        
+
     }
 
     private string ClientDTOtoString(ClientCompleteDTO clientDTO)
@@ -88,9 +122,24 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
                 $"\n Email: {clientDTO.Email} " +
                 $"\n Address: {clientDTO.Address} " +
                 $"\n PostCode: {clientDTO.PostCode} " +
+                $"\n Description: {clientDTO.Description}" +
                 $"\n Nif: {clientDTO.Nif} " +
                 $"\n Works: {works}");
     }
     
+    
+    private string SupplierDTOtoString(SupplierCompleteDTO supplierDTO)
+    {
+        if (supplierDTO == null) return "Client not found.";
+        
+        return ($"ID: {supplierDTO.SupplierID} " +
+                $"\n Name: {supplierDTO.Name} " +
+                $"\n Phone: {supplierDTO.Phone} " +
+                $"\n Email: {supplierDTO.Email} " +
+                $"\n Address: {supplierDTO.Address} " +
+                $"\n PostCode: {supplierDTO.PostCode} " +
+                $"\n Description: {supplierDTO.Description}" +
+                $"\n Nif: {supplierDTO.Nif} ");
+    }
     
 }

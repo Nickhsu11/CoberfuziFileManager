@@ -39,8 +39,9 @@ public partial class App : Application
     private void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<AppDbContext>();
-        services.AddScoped<IEntityRepository<Client>, ClientRepository>();
-        services.AddScoped<IEntityRepository<Supplier>, SupplierRepository>();
+        
+        services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<ISupplierRepository, SupplierRepository>();
         services.AddScoped<IWorkRepository, WorkRepository>();
 
         services.AddScoped<IDGenerator>();
@@ -53,6 +54,7 @@ public partial class App : Application
         services.AddAutoMapper(typeof(MappingProfile));
         
         services.AddScoped<IValidator<ClientCompleteDTO>, ClientCompleteDTOValidator>();
+        services.AddScoped<IValidator<SupplierCompleteDTO>, SupplierCompleteDTOValidator>();
 
         services.AddSingleton<MainWindow>();
     }
@@ -69,6 +71,7 @@ public partial class App : Application
             
             dbContext.Database.EnsureCreated();
             Console.WriteLine("CreatedTable");
+            
         }
         
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

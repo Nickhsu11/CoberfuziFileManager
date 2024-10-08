@@ -12,7 +12,13 @@ public class MappingProfile : Profile
 
         CreateMap<Client, ClientCompleteDTO>();
         CreateMap<ClientCompleteDTO, Client>();
-        
+
+        CreateMap<Supplier, SupplierCompleteDTO>();
+        CreateMap<SupplierCompleteDTO, Supplier>();
+
+        CreateMap<Work, WorkCompleteDTO>();
+        CreateMap<WorkCompleteDTO, Work>();
+
     }
     
 }

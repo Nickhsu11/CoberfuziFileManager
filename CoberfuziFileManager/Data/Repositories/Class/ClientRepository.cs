@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoberfuziFileManager.Data.Repositories.Class;
 
-public class ClientRepository : IEntityRepository<Client>
+public class ClientRepository : IClientRepository
 {
 
     private readonly AppDbContext _context;
@@ -56,6 +56,11 @@ public class ClientRepository : IEntityRepository<Client>
     {
         _context.Clients.Update(entity);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<Client> GetClientByIdAsync(int clientId)
+    {
+        return await _context.Clients.FirstOrDefaultAsync(s => s.ClientId == clientId );
     }
 
     /*
