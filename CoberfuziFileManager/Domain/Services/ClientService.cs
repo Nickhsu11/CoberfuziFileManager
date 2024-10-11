@@ -10,16 +10,16 @@ public class ClientService
 {
     
     private readonly IClientRepository _clientRepository;
-    private readonly IWorkRepository _workRepository;
+    private readonly WorkService _workService;
     
     private readonly IDGenerator.IDGenerator _idGenerator;
 
     public ClientService(IClientRepository clientRepository, 
-        IDGenerator.IDGenerator idGenerator, IWorkRepository workRepository)
+        IDGenerator.IDGenerator idGenerator, WorkService workService)
     {
         _clientRepository = clientRepository;
         _idGenerator = idGenerator;
-        _workRepository = workRepository;
+        _workService = workService;
     }
 
     public async Task AddClientAsync(Client client)
@@ -33,18 +33,14 @@ public class ClientService
         return await _clientRepository.GetClientByIdAsync(id);
     }
 
-    public async Task AddWorkToClient(Work work, int clientId)
+    public async Task AddWorkToClient(Work work, Client client)
     {
-        var client = await _clientRepository.GetByIdAsync(clientId);
-        if (client == null)
-        {
-            throw new Exception($"Client with id {clientId} was not found. ");
-        }
-
+        
         work.Client = client;
+        work.ClientID = client.ClientId;
         client.Works.Add(work);
-
-        await _workRepository.AddAsync(work);
+        
+        await _workService.addWorkAsync(work);
         await _clientRepository.UpdateAsync(client);
     }
     

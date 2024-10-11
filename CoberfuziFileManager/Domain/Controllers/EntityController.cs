@@ -18,17 +18,20 @@ public class EntityController
 
     private readonly IValidator<ClientCompleteDTO> _clientValidator;
     private readonly IValidator<SupplierCompleteDTO> _supplierValidator;
+    private readonly IValidator<WorkCompleteDTO> _workValidator;
     
     private readonly IMapper _mapper;
 
     public EntityController(ClientService clientService, SupplierService supplierService, 
-        IValidator<ClientCompleteDTO> clientValidator, IMapper mapper, IValidator<SupplierCompleteDTO> supplierValidator)
+        IValidator<ClientCompleteDTO> clientValidator, IMapper mapper, IValidator<SupplierCompleteDTO> supplierValidator
+        , IValidator<WorkCompleteDTO> workValidator)
     {
         _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
         _supplierService = supplierService ?? throw new ArgumentNullException(nameof(supplierService));
 
         _clientValidator = clientValidator ?? throw new ArgumentNullException(nameof(clientValidator));
         _supplierValidator = supplierValidator ?? throw new ArgumentNullException(nameof(supplierValidator));
+        _workValidator = workValidator ?? throw new ArgumentNullException(nameof(workValidator));
         
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
@@ -63,6 +66,26 @@ public class EntityController
         var clientDTO = _mapper.Map<ClientCompleteDTO>(client);
         return clientDTO;
         
+    }
+
+    public async Task AddWorkToClient(WorkCompleteDTO work)
+    {
+        var validationResult = await _workValidator.ValidateAsync(work);
+        if (!validationResult.IsValid)
+        {
+            foreach (var failure in validationResult.Errors)
+            {
+                Console.WriteLine($"Property {failure.PropertyName} failed validation. Error: {failure.ErrorMessage}");
+            }
+
+            return;
+        }
+        
+        var realWork = _mapper.Map<Work>(work);
+        
+        var client = await _clientService.GetClientByIdAsync(realWork.ClientID);
+        
+        await _clientService.AddWorkToClient(realWork, client);
     }
     
     

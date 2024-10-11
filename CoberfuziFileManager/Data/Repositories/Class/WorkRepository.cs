@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoberfuziFileManager.Data.Repositories.Class;
 
@@ -30,5 +31,9 @@ public class WorkRepository : IWorkRepository
         _context.Works.Update(entity);
         await _context.SaveChangesAsync();
     }
-    
+
+    public async Task<Work> GetByWorkIdAsync(int workid)
+    {
+        return await _context.Works.FirstOrDefaultAsync( w => w.WorkID == workid );
+    }
 }

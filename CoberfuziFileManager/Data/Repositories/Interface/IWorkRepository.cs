@@ -13,4 +13,6 @@ public interface IWorkRepository
     
     // Updates the data on the given entity for the given entity
     Task UpdateAsync(Work entity);
+    
+    Task<Work> GetByWorkIdAsync (int id);
 }
