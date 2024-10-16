@@ -58,41 +58,9 @@ public class ClientRepository : IClientRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Client> GetClientByIdAsync(int clientId)
+    public async Task<Client> GetByClientIdAsync(int clientId)
     {
         return await _context.Clients.FirstOrDefaultAsync(s => s.ClientId == clientId );
     }
-
-    /*
-    public Client GetByNif(int nif)
-    {
-        return _context.Clients.FirstOrDefault(client => client.Nif == nif);
-    }
-
-    public bool CheckIfExists(Client entity)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public IEnumerable<Client> GetAll()
-    {
-        return _context.Clients.ToList();
-    }
-
-
-    public void Delete(int id)
-    {
-        var client = _context.Clients.Find(id);
-        if (client != null)
-        {
-            _context.Clients.Remove(client);
-            _context.SaveChanges();
-        }
-        else
-        {
-            Console.WriteLine($"Client with {id} not found. ");
-        }
-    }
-    */
 
 }

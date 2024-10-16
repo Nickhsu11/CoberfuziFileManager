@@ -59,42 +59,10 @@ public class SupplierRepository : ISupplierRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Supplier> GetSupplierByIDAsync(int supplierId)
+    public async Task<Supplier> GetSupplierByIdAsync(int supplierId)
     {
         return await _context.Suppliers.FirstOrDefaultAsync(s => s.SupplierID == supplierId);
     }
-
-    /*
-    public Supplier GetByNif(int nif)
-    {
-        return _context.Suppliers.FirstOrDefault(supplier => supplier.Nif == nif);
-    }
-
-    public bool CheckIfExists(Supplier entity)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public IEnumerable<Supplier> GetAll()
-    {
-        return _context.Suppliers.ToList();
-    }
-
-    
-    public void Delete(int id)
-    {
-        var supplier = _context.Suppliers.Find(id);
-        if (supplier != null)
-        {
-            _context.Suppliers.Remove(supplier);
-            _context.SaveChanges();
-        }
-        else
-        {
-            Console.WriteLine($"The Supplier with the ID {id} was not found.");
-        }
-    }
-    */
     
     
 }

@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<Supplier> Suppliers{ get; set; }
     public DbSet<Work> Works { get; set; }
+    public DbSet<Budget> Budgets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -78,6 +79,17 @@ public class AppDbContext : DbContext
             .HasIndex(w => w.WorkID)
             .IsUnique();
 
+        modelBuilder.Entity<Work>()
+            .HasOne(w => w.Budget)
+            .WithOne(b => b.Work)
+            .HasForeignKey<Budget>(w => w.WorkID)
+            .IsRequired();
+        
+    }
+
+    private void BudgetModelSeed(ModelBuilder modelBuilder)
+    {
+        
 
     }
     

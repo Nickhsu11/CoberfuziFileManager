@@ -24,10 +24,7 @@ public class Work
     // Foreign Key to the Client
     [Required]
     public int ClientID { get; set; }
-    
-    // Navigation Proprety to the Client
-    [Required]
     public Client Client { get; set; }
     
-    
+    public Budget Budget { get; set; }
 }

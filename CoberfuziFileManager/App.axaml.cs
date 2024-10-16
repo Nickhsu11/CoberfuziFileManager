@@ -9,6 +9,7 @@ using CoberfuziFileManager.Data.Repositories.Class;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Domain.Controllers;
 using CoberfuziFileManager.Domain.DTOs;
+using CoberfuziFileManager.Domain.DTOs.Budget;
 using CoberfuziFileManager.Domain.Mappings;
 using CoberfuziFileManager.Domain.Services;
 using CoberfuziFileManager.Domain.Services.IDGenerator;
@@ -43,11 +44,14 @@ public partial class App : Application
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
         services.AddScoped<IWorkRepository, WorkRepository>();
+        services.AddScoped<IBudgetRepository, BudgetRepository>();
 
         services.AddScoped<IDGenerator>();
         
         services.AddScoped<ClientService>();
         services.AddScoped<SupplierService>();
+        services.AddScoped<WorkService>();
+        services.AddScoped<BudgetService>();
         
         services.AddScoped<EntityController>();
 
@@ -55,6 +59,8 @@ public partial class App : Application
         
         services.AddScoped<IValidator<ClientCompleteDTO>, ClientCompleteDTOValidator>();
         services.AddScoped<IValidator<SupplierCompleteDTO>, SupplierCompleteDTOValidator>();
+        services.AddScoped<IValidator<WorkCompleteDTO>, WorkCompleteDTOValidator>();
+        services.AddScoped<IValidator<BudgetCompleteDTO>, BudgetCompleteDTOValidator>();
 
         services.AddSingleton<MainWindow>();
     }

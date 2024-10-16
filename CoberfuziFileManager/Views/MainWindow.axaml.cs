@@ -8,6 +8,7 @@ using System;
 using AutoMapper;
 using CoberfuziFileManager.Domain.Controllers;
 using CoberfuziFileManager.Domain.DTOs;
+using CoberfuziFileManager.Domain.DTOs.Budget;
 using CoberfuziFileManager.Models;
 using CoberfuziFileManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,7 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
     private async void RunConsoleTests()
     {
 
+        Console.WriteLine("====================== Entitys ( Client, Supplier ) ======================");
         Console.WriteLine("Testing Entity Controller Operations: ");
 
         var client = new Client
@@ -101,19 +103,55 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
         
         var suppliers2 = await _entityController.GetSupplierById(2);
         Console.WriteLine(SupplierDTOtoString(suppliers2));
+
+        Console.WriteLine("\n \n");
+        Console.WriteLine("====================== Work ======================");
+        Console.WriteLine("\n \n");
         
+        var work1 = new WorkCompleteDTO
+        {
+            Address = "Rua Bartolomeu Dias",
+            ClientID = 1,
+            PostCode = "2620-090"
+        };
+
+        await _entityController.AddWorkToClient(work1);
+        
+        Console.WriteLine(ClientDTOtoString(await _entityController.GetClientById(1)));
+        
+        Console.WriteLine("\n \n");
+        Console.WriteLine("====================== Budget ======================");
+        Console.WriteLine("\n \n");
+
+        var budget1 = new BudgetCompleteDTO
+        {
+            Value = 100,
+        };
+
+        await _entityController.AddBudgetToWorkToClient(budget1, 1);
+        Console.WriteLine(ClientDTOtoString(await _entityController.GetClientById(1)));
 
     }
 
     private string ClientDTOtoString(ClientCompleteDTO clientDTO)
     {
         if (clientDTO == null) return "Client not found.";
-        
+
         var works = "";
-        foreach (var currentWork in clientDTO.Works)
+    
+        if (clientDTO.Works != null)
         {
-            works += $"\n WorkID: {currentWork.WorkID}" +
-                     $"\n Address: {currentWork.Address} \n";
+            foreach (var currentWork in clientDTO.Works)
+            {
+                var budgetValue = currentWork.Budget?.Value.ToString() ?? "No Budget Assigned";  // Check for null Budget
+                works += $"\n     WorkID: {currentWork.WorkID}" +
+                         $"\n     Address: {currentWork.Address} \n" +
+                         $"\n     Budget: {budgetValue} \n";
+            }
+        }
+        else
+        {
+            works = "No works assigned.";
         }
         
         return ($"ID: {clientDTO.ClientID} " +

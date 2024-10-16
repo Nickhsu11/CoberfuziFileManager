@@ -36,4 +36,12 @@ public class IDGenerator
             .Select(w => w.WorkID)
             .FirstOrDefault() + 1;
     }
+
+    public int GetNextBudgetID()
+    {
+        return _context.Budgets
+            .OrderByDescending(b => b.BudgetId)
+            .Select(b => b.BudgetId)
+            .FirstOrDefault() + 1;
+    }
 }

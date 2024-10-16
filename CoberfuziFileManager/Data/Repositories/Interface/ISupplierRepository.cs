@@ -6,6 +6,6 @@ namespace CoberfuziFileManager.Data.Repositories.Interface;
 public interface ISupplierRepository : IEntityRepository<Supplier>
 {
     
-    Task<Supplier> GetSupplierByIDAsync(int supplierId);
+    Task<Supplier> GetSupplierByIdAsync(int supplierId);
     
 }

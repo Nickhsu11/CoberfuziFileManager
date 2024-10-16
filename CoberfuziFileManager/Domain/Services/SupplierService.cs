@@ -24,7 +24,7 @@ public class SupplierService
 
     public async Task<Supplier> GetSupplierByIdAsync(int supplierId)
     {
-        return await _supplierRepository.GetSupplierByIDAsync(supplierId);
+        return await _supplierRepository.GetSupplierByIdAsync(supplierId);
     }
     
 }

@@ -20,7 +20,8 @@ public class WorkCompleteDTOValidator : AbstractValidator<WorkCompleteDTO>
             .Matches(@"^\d{4}-\d{3}$").WithMessage("PostCode is not valid");
         
         RuleFor(work => work.WorkID)
-            .GreaterThan(0).WithMessage("WorkID must be greater than 0");
+            .Must(workID => workID == null || workID > 0 || workID == 0)
+            .WithMessage("WorkID must be either empty or greater than 0");
     }
     
 }

@@ -30,7 +30,7 @@ public class ClientService
 
     public async Task<Client> GetClientByIdAsync(int id)
     {
-        return await _clientRepository.GetClientByIdAsync(id);
+        return await _clientRepository.GetByClientIdAsync(id);
     }
 
     public async Task AddWorkToClient(Work work, Client client)
@@ -42,6 +42,12 @@ public class ClientService
         
         await _workService.addWorkAsync(work);
         await _clientRepository.UpdateAsync(client);
+    }
+
+    public async Task AddBudgetToWorkToClient(Budget budget, Client client, int workId)
+    {
+        
+        
     }
     
 }
