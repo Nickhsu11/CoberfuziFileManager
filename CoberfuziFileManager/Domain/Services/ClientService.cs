@@ -43,11 +43,5 @@ public class ClientService
         await _workService.addWorkAsync(work);
         await _clientRepository.UpdateAsync(client);
     }
-
-    public async Task AddBudgetToWorkToClient(Budget budget, Client client, int workId)
-    {
-        
-        
-    }
     
 }

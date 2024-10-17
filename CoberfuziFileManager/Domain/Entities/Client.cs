@@ -11,6 +11,6 @@ public class Client : Entity
     public int ClientId { get; set; }
     
     // One - To Many rellationship : A Client have multiple works
-    public ICollection<Work> Works { get; set; }
-    
+    public ICollection<Work> Works { get; set; } = new List<Work>();
+
 }

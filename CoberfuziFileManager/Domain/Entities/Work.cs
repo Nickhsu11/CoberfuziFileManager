@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CoberfuziFileManager.Models;
@@ -27,4 +28,6 @@ public class Work
     public Client Client { get; set; }
     
     public Budget Budget { get; set; }
+    
+    public ICollection<Supply> Supplies { get; set; } = new List<Supply>();
 }

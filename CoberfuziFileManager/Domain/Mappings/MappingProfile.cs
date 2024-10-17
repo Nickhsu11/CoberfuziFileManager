@@ -1,6 +1,7 @@
 using AutoMapper;
 using CoberfuziFileManager.Domain.DTOs;
 using CoberfuziFileManager.Domain.DTOs.Budget;
+using CoberfuziFileManager.Domain.DTOs.Supply;
 using CoberfuziFileManager.Models;
 
 namespace CoberfuziFileManager.Domain.Mappings;
@@ -22,6 +23,9 @@ public class MappingProfile : Profile
 
         CreateMap<Budget, BudgetCompleteDTO>();
         CreateMap<BudgetCompleteDTO, Budget>();
+
+        CreateMap<Supply, SupplyCompleteDTO>();
+        CreateMap<SupplyCompleteDTO, Supply>();
 
     }
     

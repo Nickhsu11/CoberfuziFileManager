@@ -43,4 +43,10 @@ public class WorkService
         await _budgetService.AddBudgetAsync(budget);
         await _workRepository.UpdateAsync(work);
     }
+
+    public async Task AddSupplyToWork(Work work, Supply supply)
+    {
+        work.Supplies.Add(supply);
+        await _workRepository.UpdateAsync(work);
+    }
 }

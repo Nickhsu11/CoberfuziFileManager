@@ -9,6 +9,7 @@ using AutoMapper;
 using CoberfuziFileManager.Domain.Controllers;
 using CoberfuziFileManager.Domain.DTOs;
 using CoberfuziFileManager.Domain.DTOs.Budget;
+using CoberfuziFileManager.Domain.DTOs.Supply;
 using CoberfuziFileManager.Models;
 using CoberfuziFileManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -131,6 +132,22 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
         await _entityController.AddBudgetToWorkToClient(budget1, 1);
         Console.WriteLine(ClientDTOtoString(await _entityController.GetClientById(1)));
 
+        Console.WriteLine("\n \n");
+        Console.WriteLine("====================== Supply ======================");
+        Console.WriteLine("\n \n");
+
+        var supply1 = new SupplyCompleteDTO
+        {
+            Name = "Marco",
+            Stock = 10,
+            SupplierId = 1
+        };
+        
+        await _entityController.AddSupplyToSupplier(supply1, 1);
+        Console.WriteLine(SupplierDTOtoString(await _entityController.GetSupplierById(1)));
+
+        await _entityController.AddSupplyToWork(1,1);
+
     }
 
     private string ClientDTOtoString(ClientCompleteDTO clientDTO)
@@ -169,6 +186,23 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
     private string SupplierDTOtoString(SupplierCompleteDTO supplierDTO)
     {
         if (supplierDTO == null) return "Client not found.";
+
+        var works = "";
+    
+        if (supplierDTO.Supplies != null)
+        {
+            foreach (var currentWork in supplierDTO.Supplies)
+            {
+                works += $"\n     WorkID: {currentWork.Name}" +
+                         $"\n     Address: {currentWork.Stock} \n";
+            }
+        }
+        else
+        {
+            works = "No works assigned.";
+        }
+        
+        if (supplierDTO == null) return "Client not found.";
         
         return ($"ID: {supplierDTO.SupplierID} " +
                 $"\n Name: {supplierDTO.Name} " +
@@ -177,7 +211,8 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
                 $"\n Address: {supplierDTO.Address} " +
                 $"\n PostCode: {supplierDTO.PostCode} " +
                 $"\n Description: {supplierDTO.Description}" +
-                $"\n Nif: {supplierDTO.Nif} ");
+                $"\n Nif: {supplierDTO.Nif} " +
+                $"\n Supplys: {works}");
     }
     
 }

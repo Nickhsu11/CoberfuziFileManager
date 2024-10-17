@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CoberfuziFileManager.Domain.DTOs.Supply;
 using CoberfuziFileManager.Models;
 
 namespace CoberfuziFileManager.Domain.DTOs;
@@ -22,5 +23,7 @@ public class SupplierCompleteDTO
     public int SupplierID { get; set; }
 
     public string? Description { get; set;  }
+    
+    public ICollection<SupplyCompleteDTO> Supplies { get; set; } = new List<SupplyCompleteDTO>();
     
 }

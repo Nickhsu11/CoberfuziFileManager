@@ -10,6 +10,7 @@ using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Domain.Controllers;
 using CoberfuziFileManager.Domain.DTOs;
 using CoberfuziFileManager.Domain.DTOs.Budget;
+using CoberfuziFileManager.Domain.DTOs.Supply;
 using CoberfuziFileManager.Domain.Mappings;
 using CoberfuziFileManager.Domain.Services;
 using CoberfuziFileManager.Domain.Services.IDGenerator;
@@ -45,6 +46,7 @@ public partial class App : Application
         services.AddScoped<ISupplierRepository, SupplierRepository>();
         services.AddScoped<IWorkRepository, WorkRepository>();
         services.AddScoped<IBudgetRepository, BudgetRepository>();
+        services.AddScoped<ISupplyRepository, SupplyRepository>();
 
         services.AddScoped<IDGenerator>();
         
@@ -52,6 +54,7 @@ public partial class App : Application
         services.AddScoped<SupplierService>();
         services.AddScoped<WorkService>();
         services.AddScoped<BudgetService>();
+        services.AddScoped<SupplyService>();
         
         services.AddScoped<EntityController>();
 
@@ -61,6 +64,7 @@ public partial class App : Application
         services.AddScoped<IValidator<SupplierCompleteDTO>, SupplierCompleteDTOValidator>();
         services.AddScoped<IValidator<WorkCompleteDTO>, WorkCompleteDTOValidator>();
         services.AddScoped<IValidator<BudgetCompleteDTO>, BudgetCompleteDTOValidator>();
+        services.AddScoped<IValidator<SupplyCompleteDTO>, SupplyCompleteDTOValidator>();
 
         services.AddSingleton<MainWindow>();
     }
@@ -77,7 +81,8 @@ public partial class App : Application
             
             dbContext.Database.EnsureCreated();
             Console.WriteLine("CreatedTable");
-            
+
+
         }
         
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

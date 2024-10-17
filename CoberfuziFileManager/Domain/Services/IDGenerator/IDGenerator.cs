@@ -44,4 +44,12 @@ public class IDGenerator
             .Select(b => b.BudgetId)
             .FirstOrDefault() + 1;
     }
+
+    public int GetNextSupplyID()
+    {
+        return _context.Supplies
+            .OrderByDescending(s => s.SupplyID)
+            .Select(s => s.SupplyID)
+            .FirstOrDefault() + 1;
+    }
 }
