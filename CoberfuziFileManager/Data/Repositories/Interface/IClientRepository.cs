@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoberfuziFileManager.Models;
 
@@ -8,4 +10,6 @@ public interface IClientRepository : IEntityRepository<Client>
     
     Task<Client> GetByClientIdAsync(int clientId);
     
+    Task<ICollection<Client>> GetAllClientsAsync();
+
 }

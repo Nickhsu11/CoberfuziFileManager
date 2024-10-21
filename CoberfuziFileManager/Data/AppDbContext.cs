@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
     public DbSet<Work> Works { get; set; }
     public DbSet<Budget> Budgets { get; set; }
     public DbSet<Supply> Supplies { get; set; }
+    public DbSet<WorkSuply> WorkSuplies { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -106,10 +108,24 @@ public class AppDbContext : DbContext
             .HasIndex(s => s.SupplierID)
             .IsUnique();
         
-        modelBuilder.Entity<Supply>()
-            .HasMany(s => s.Works)
-            .WithMany(w => w.Supplies)
-            .UsingEntity(j => j.ToTable("WorkSupplies"));
+    }
+    
+    private void WorkSuplyModelSeed(ModelBuilder modelBuilder)
+    {
+        
+        modelBuilder.Entity<WorkSuply>()
+            .HasKey(ws => new { ws.WorkID, ws.SupplyID });
+
+        modelBuilder.Entity<WorkSuply>()
+            .HasOne(ws => ws.Work)
+            .WithMany(w => w.WorkAndSupplies)
+            .HasForeignKey(ws => ws.WorkID);
+
+        modelBuilder.Entity<WorkSuply>()
+            .HasOne(ws => ws.Supply)
+            .WithMany(s => s.WorkAndSupplies)
+            .HasForeignKey(ws => ws.SupplyID);
+        
     }
     
 }

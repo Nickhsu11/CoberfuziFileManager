@@ -59,6 +59,16 @@ public class SupplierRepository : ISupplierRepository
         await _context.SaveChangesAsync();
     }
 
+    public Task<Supplier> GetClientByNameAsync(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Supplier> GetClientByNifAsync(int nif)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Supplier> GetSupplierByIdAsync(int supplierId)
     {
         return await _context.Suppliers.FirstOrDefaultAsync(s => s.SupplierID == supplierId);

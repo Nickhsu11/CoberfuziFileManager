@@ -28,7 +28,7 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         
         InitializeComponent();
-        RunConsoleTests();
+        //RunConsoleTests();
     }
 
     private void InitializeComponent()

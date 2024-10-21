@@ -32,13 +32,34 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        var services = new ServiceCollection();
-        ConfigureServices(services);
-        ServiceProvider = services.BuildServiceProvider();
-        
+        BuildServiceProvider();
+
+    }
+    
+    public static void BuildServiceProvider()
+    {
+        if (ServiceProvider == null)  // Make sure it doesn't reinitialize
+        {
+            var services = new ServiceCollection();
+            
+            ConfigureServices(services);
+            ServiceProvider = services.BuildServiceProvider();
+            
+            using (var scope = ServiceProvider.CreateScope())
+            {
+            
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                dbContext.Database.EnsureDeleted();
+                Console.WriteLine("DroppedExistingTable");
+            
+                dbContext.Database.EnsureCreated();
+                Console.WriteLine("CreatedTable");
+            
+            }
+        }
     }
 
-    private void ConfigureServices(IServiceCollection services)
+    private static void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<AppDbContext>();
         
@@ -57,6 +78,8 @@ public partial class App : Application
         services.AddScoped<SupplyService>();
         
         services.AddScoped<EntityController>();
+        
+        services.AddScoped<CommandLineApp>();
 
         services.AddAutoMapper(typeof(MappingProfile));
         
@@ -81,8 +104,7 @@ public partial class App : Application
             
             dbContext.Database.EnsureCreated();
             Console.WriteLine("CreatedTable");
-
-
+            
         }
         
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

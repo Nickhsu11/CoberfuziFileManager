@@ -14,6 +14,7 @@ public class MappingProfile : Profile
 
         CreateMap<Client, ClientCompleteDTO>();
         CreateMap<ClientCompleteDTO, Client>();
+        CreateMap<Client, ClientBasicDTO>();
 
         CreateMap<Supplier, SupplierCompleteDTO>();
         CreateMap<SupplierCompleteDTO, Supplier>();

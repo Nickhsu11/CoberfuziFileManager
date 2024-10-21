@@ -29,5 +29,5 @@ public class Work
     
     public Budget Budget { get; set; }
     
-    public ICollection<Supply> Supplies { get; set; } = new List<Supply>();
+    public ICollection<WorkSuply> WorkAndSupplies { get; set; } = new List<WorkSuply>();
 }

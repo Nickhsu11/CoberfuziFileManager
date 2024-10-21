@@ -32,7 +32,7 @@ public class SupplyService
     
     public async Task AddWorkToSuply(Work work, Supply supply)
     {
-        supply.Works.Add(work);
+        //supply.Works.Add(work);
         await _supplyRepository.UpdateAsync(supply);
     }
 }

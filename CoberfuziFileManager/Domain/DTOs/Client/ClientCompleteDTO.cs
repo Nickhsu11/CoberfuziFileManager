@@ -16,4 +16,14 @@ public class ClientCompleteDTO
     public int ClientID { get; set; }
     public ICollection<WorkCompleteDTO> Works { get; set; } = new List<WorkCompleteDTO>();
     
+    public override string ToString()
+    {
+        return $"Client ID: {ClientID} \n " +
+               $"Name: {Name} \n " +
+               $"Phone: {Phone} \n " +
+               $"Email: {Email} \n " +
+               $"Address: {Address} \n " +
+               $"Description: {Description} \n ";
+    }
+    
 }

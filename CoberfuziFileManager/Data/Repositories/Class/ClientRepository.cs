@@ -58,9 +58,23 @@ public class ClientRepository : IClientRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task<Client> GetClientByNameAsync(string name)
+    {
+        return await _context.Clients.FirstOrDefaultAsync(s => s.Name == name);
+    }
+
+    public async Task<Client> GetClientByNifAsync(int nif)
+    {
+        return await _context.Clients.FirstOrDefaultAsync(s => s.Nif.Equals(nif));
+    }
+
     public async Task<Client> GetByClientIdAsync(int clientId)
     {
         return await _context.Clients.FirstOrDefaultAsync(s => s.ClientId == clientId );
     }
 
+    public async Task<ICollection<Client>> GetAllClientsAsync()
+    {
+        return await _context.Clients.ToListAsync();
+    }
 }

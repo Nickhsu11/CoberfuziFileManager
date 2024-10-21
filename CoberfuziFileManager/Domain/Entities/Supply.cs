@@ -18,9 +18,14 @@ public class Supply
     [Required]
     public int Stock { get; set; }
     
+    // m2 / box etc.. etc..
+    public double Units { get; set; }
+    
+    public double Cost { get; set; }
+    
     [Required]
     public int SupplierID { get; set; }
     public Supplier Supplier { get; set; }
 
-    public ICollection<Work> Works { get; set; } = new List<Work>();
+    public ICollection<WorkSuply> WorkAndSupplies { get; set; } = new List<WorkSuply>();
 }

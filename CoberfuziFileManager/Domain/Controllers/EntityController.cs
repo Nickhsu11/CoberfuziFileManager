@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -78,6 +79,38 @@ public class EntityController
         var clientDTO = _mapper.Map<ClientCompleteDTO>(client);
         return clientDTO;
         
+    }
+
+    public async Task<ClientCompleteDTO> GetClientByName(string name)
+    {
+
+        var client = await _clientService.GetClientByNameAsync(name);
+        if (client is null) return null;
+        
+        var clientDTO = _mapper.Map<ClientCompleteDTO>(client);
+        return clientDTO;
+    }
+
+    public async Task<ClientCompleteDTO> GetclientByNif(int nif)
+    {
+        var client = await _clientService.GetClientByNifAsync(nif);
+        if (client is null) return null;
+        
+        var clientDTO = _mapper.Map<ClientCompleteDTO>(client);
+        return clientDTO;
+    }
+
+    public async Task<ICollection<ClientBasicDTO>> GetAllClients()
+    {
+        var clients = await _clientService.GetAllClientsAsync();
+        var clientsDTO = new List<ClientBasicDTO>();
+
+        foreach (var client in clients)
+        {
+            clientsDTO.Add(_mapper.Map<ClientBasicDTO>(client));
+        }
+        
+        return clientsDTO;
     }
     
     // Supplier-related methods
