@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoberfuziFileManager.Models;
 
@@ -11,5 +12,7 @@ public interface IWorkRepository
     
     Task UpdateAsync(Work entity);
     
-    Task<Work> GetByWorkIdAsync (int id);
+    Task<Work> GetByWorkIdAsync (int id, int clientID);
+
+    Task<ICollection<Work>> GetAllWorksFromClientId(int ClientID);
 }

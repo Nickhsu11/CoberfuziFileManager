@@ -59,19 +59,24 @@ public class SupplierRepository : ISupplierRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<Supplier> GetClientByNameAsync(string name)
+    public async Task<Supplier> GetEntityByNameAsync(string name)
     {
-        throw new NotImplementedException();
+        return await _context.Suppliers.FirstOrDefaultAsync(s => s.Name == name);
     }
 
-    public Task<Supplier> GetClientByNifAsync(int nif)
+    public async Task<Supplier> GetEntityByNifAsync(int nif)
     {
-        throw new NotImplementedException();
+        return await _context.Suppliers.FirstOrDefaultAsync(s => s.Nif.Equals(nif));
     }
 
     public async Task<Supplier> GetSupplierByIdAsync(int supplierId)
     {
         return await _context.Suppliers.FirstOrDefaultAsync(s => s.SupplierID == supplierId);
+    }
+    
+    public async Task<ICollection<Supplier>> GetAllEntitiesAsync()
+    {
+        return await _context.Suppliers.ToListAsync();
     }
     
     

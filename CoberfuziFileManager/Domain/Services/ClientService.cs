@@ -26,8 +26,23 @@ public class ClientService
 
     public async Task AddClientAsync(Client client)
     {
+        var existingClient = await _clientRepository.GetEntityByNameAsync(client.Name);
+
+        if (existingClient != null)
+        {
+            throw new InvalidOperationException($"Client with {client.Name} already exists");
+        }
+
+        existingClient = await _clientRepository.GetEntityByNifAsync(client.Nif);
+
+        if (existingClient != null)
+        {
+            throw new InvalidOperationException($"Client with {client.Nif} already exists");
+        }
+        
         client.ClientId = _idGenerator.GetNextClientID();
         client.Name = client.Name.ToUpper();
+        
         await _clientRepository.AddAsync(client);
     }
 
@@ -38,12 +53,12 @@ public class ClientService
 
     public async Task<Client> GetClientByNameAsync(string name)
     {
-        return await _clientRepository.GetClientByNameAsync(name.ToUpper());
+        return await _clientRepository.GetEntityByNameAsync(name.ToUpper());
     }
 
     public async Task<Client> GetClientByNifAsync(int nif)
     {
-        return await _clientRepository.GetClientByNifAsync(nif);
+        return await _clientRepository.GetEntityByNifAsync(nif);
     }
 
     public async Task AddWorkToClient(Work work, Client client)
@@ -59,7 +74,7 @@ public class ClientService
 
     public async Task<ICollection<Client>> GetAllClientsAsync()
     {
-        return await _clientRepository.GetAllClientsAsync();
+        return await _clientRepository.GetAllEntitiesAsync();
     } 
     
 }

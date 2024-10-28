@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoberfuziFileManager.Data.Repositories.Class;
 using CoberfuziFileManager.Data.Repositories.Interface;
@@ -24,13 +26,18 @@ public class WorkService
 
     public async Task addWorkAsync(Work work)
     {
-        work.WorkID = _idGenerator.GetNextWorkID();
+        work.WorkID = _idGenerator.GetNextWorkID(work);
         await _workRepository.AddAsync(work);
     }
 
-    public async Task<Work> getWorkByWorkIdAsync(int workId)
+    public async Task<Work> getWorkByWorkIdAsync(int workId, int clientID)
     {
-        return await _workRepository.GetByWorkIdAsync(workId);
+        return await _workRepository.GetByWorkIdAsync(workId, clientID);
+    }
+    
+    public async Task<ICollection<Work>> GetAllWorksFromClientID(int clientID)
+    {
+        return await _workRepository.GetAllWorksFromClientId(clientID);
     }
 
     public async Task AddBudgetToWork(Budget budget, Work work)

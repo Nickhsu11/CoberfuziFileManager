@@ -45,17 +45,16 @@ public partial class App : Application
             ConfigureServices(services);
             ServiceProvider = services.BuildServiceProvider();
             
-            using (var scope = ServiceProvider.CreateScope())
-            {
+            //using (var scope = ServiceProvider.CreateScope())
+            //{
+            //  var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            //  dbContext.Database.EnsureDeleted();
+            //  Console.WriteLine("DroppedExistingTable");
             
-                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                dbContext.Database.EnsureDeleted();
-                Console.WriteLine("DroppedExistingTable");
+            //  dbContext.Database.EnsureCreated();
+            //  Console.WriteLine("CreatedTable");
             
-                dbContext.Database.EnsureCreated();
-                Console.WriteLine("CreatedTable");
-            
-            }
+            //}
         }
     }
 

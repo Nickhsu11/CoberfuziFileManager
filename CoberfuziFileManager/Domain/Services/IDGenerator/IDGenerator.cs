@@ -1,5 +1,6 @@
 using System.Linq;
 using CoberfuziFileManager.Data;
+using CoberfuziFileManager.Models;
 
 namespace CoberfuziFileManager.Domain.Services.IDGenerator;
 
@@ -29,11 +30,12 @@ public class IDGenerator
             .FirstOrDefault() + 1;
     }
 
-    public int GetNextWorkID()
+    public int GetNextWorkID(Work work)
     {
         return _context.Works
-            .OrderByDescending(w => w.WorkID)
-            .Select(w => w.WorkID)
+            .Where(w => w.ClientID == work.ClientID)  // Filter by ClientID
+            .OrderByDescending(w => w.WorkID)         // Order by WorkID in descending order
+            .Select(w => w.WorkID)                    // Select WorkID
             .FirstOrDefault() + 1;
     }
 
@@ -45,9 +47,10 @@ public class IDGenerator
             .FirstOrDefault() + 1;
     }
 
-    public int GetNextSupplyID()
+    public int GetNextSupplyID(Supply supply)
     {
         return _context.Supplies
+            .Where(s => s.SupplierID == supply.SupplierID)
             .OrderByDescending(s => s.SupplyID)
             .Select(s => s.SupplyID)
             .FirstOrDefault() + 1;

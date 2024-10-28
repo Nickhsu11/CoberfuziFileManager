@@ -15,4 +15,9 @@ public class WorkCompleteDTO
 
     public ICollection<SupplyCompleteDTO> Supplies { get; set; } = new List<SupplyCompleteDTO>();
 
+    public override string ToString()
+    {
+        return $"WorkID: {WorkID} \n PostCode: {PostCode} \n Address: {Address} \n Budget: {Budget} \n ClientID : {ClientID}";
+    }
+
 }

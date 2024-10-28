@@ -16,10 +16,10 @@ public class Supply
     public string Name { get; set; }
     
     [Required]
-    public int Stock { get; set; }
+    public double Stock { get; set; }
     
     // m2 / box etc.. etc..
-    public double Units { get; set; }
+    public string Units { get; set; }
     
     public double Cost { get; set; }
     

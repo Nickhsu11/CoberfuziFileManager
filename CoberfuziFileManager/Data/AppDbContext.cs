@@ -83,16 +83,6 @@ public class AppDbContext : DbContext
 
     private void WorkModelSeed(ModelBuilder modelBuilder)
     {
-
-        modelBuilder.Entity<Work>()
-            .HasIndex(w => w.WorkID)
-            .IsUnique();
-
-        modelBuilder.Entity<Work>()
-            .HasOne(w => w.Budget)
-            .WithOne(b => b.Work)
-            .HasForeignKey<Budget>(w => w.WorkID)
-            .IsRequired();
         
     }
 
@@ -103,10 +93,6 @@ public class AppDbContext : DbContext
     
     private void SupplyModelSeed(ModelBuilder modelBuilder)
     {
-
-        modelBuilder.Entity<Supply>()
-            .HasIndex(s => s.SupplierID)
-            .IsUnique();
         
     }
     

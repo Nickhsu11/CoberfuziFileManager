@@ -26,4 +26,15 @@ public class SupplierCompleteDTO
     
     public ICollection<SupplyCompleteDTO> Supplies { get; set; } = new List<SupplyCompleteDTO>();
     
+    public override string ToString()
+    {
+        return $"SupplierID: {SupplierID} \n " +
+               $"Name: {Name} \n " +
+               $"Phone: {Phone} \n " +
+               $"Email: {Email} \n " +
+               $"Address: {Address} \n " +
+               $"Description: {Description} \n ";
+    }
+
+    
 }

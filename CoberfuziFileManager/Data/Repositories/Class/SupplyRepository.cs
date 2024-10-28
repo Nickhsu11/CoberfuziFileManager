@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Models;
@@ -32,9 +34,16 @@ public class SupplyRepository : ISupplyRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Supply> GetSupplyByIdAsync(int supplyId)
+    public async Task<Supply> GetSupplyByIdAsync(int supplyId, int supplierID)
     {
-        return await _context.Supplies.FirstOrDefaultAsync(s => s.SupplyID == supplyId);
+        return await _context.Supplies.FirstOrDefaultAsync(s => s.SupplyID == supplyId && s.SupplierID == supplierID);
     }
-    
+
+    public async Task<ICollection<Supply>> GetAllSupplysFromSupplierID(int supplierID)
+    {
+        return await _context.Supplies
+            .Where(supply => supply.SupplierID == supplierID)
+            .ToListAsync();
+
+    }
 }

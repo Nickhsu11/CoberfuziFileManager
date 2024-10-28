@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoberfuziFileManager.Data.Repositories.Interface;
 using CoberfuziFileManager.Models;
@@ -32,8 +34,18 @@ public class WorkRepository : IWorkRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Work> GetByWorkIdAsync(int workid)
+    public async Task<Work> GetByWorkIdAsync(int workid, int clientID)
     {
-        return await _context.Works.FirstOrDefaultAsync( w => w.WorkID == workid );
+        return await _context.Works
+            .FirstOrDefaultAsync(w => w.ClientID == clientID && w.WorkID == workid);
+    }
+
+    public async Task<ICollection<Work>> GetAllWorksFromClientId(int ClientID)
+    {
+        return await _context.Works
+            .Where(work => work.ClientID == ClientID)
+            .ToListAsync();
+
+
     }
 }

@@ -18,15 +18,18 @@ public class MappingProfile : Profile
 
         CreateMap<Supplier, SupplierCompleteDTO>();
         CreateMap<SupplierCompleteDTO, Supplier>();
+        CreateMap<Supplier, SupplierBasicDTO>();
 
         CreateMap<Work, WorkCompleteDTO>();
         CreateMap<WorkCompleteDTO, Work>();
+        CreateMap<Work, WorkBasicDTO>();
 
         CreateMap<Budget, BudgetCompleteDTO>();
         CreateMap<BudgetCompleteDTO, Budget>();
 
         CreateMap<Supply, SupplyCompleteDTO>();
         CreateMap<SupplyCompleteDTO, Supply>();
+        CreateMap<Supply, SupplyBasicDTO>();
 
     }
     

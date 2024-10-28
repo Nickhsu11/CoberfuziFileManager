@@ -9,7 +9,11 @@ public class SupplyCompleteDTO
     
     public string Name { get; set; }
     
-    public int Stock { get; set; }
+    public double Stock { get; set; }
+    
+    public string Units { get; set; }
+    
+    public double Cost { get; set; }
     
     public int SupplierId { get; set; }
     

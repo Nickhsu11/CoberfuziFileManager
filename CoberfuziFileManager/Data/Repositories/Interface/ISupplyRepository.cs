@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoberfuziFileManager.Models;
 
@@ -12,5 +13,7 @@ public interface ISupplyRepository
     
     Task UpdateAsync(Supply supply);
     
-    Task<Supply> GetSupplyByIdAsync(int budgetId);
+    Task<Supply> GetSupplyByIdAsync(int budgetId, int supplierID);
+
+    Task<ICollection<Supply>> GetAllSupplysFromSupplierID(int supplierID);
 }

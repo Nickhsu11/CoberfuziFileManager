@@ -12,8 +12,10 @@ public interface IEntityRepository<T> where T : Entity
     
     Task UpdateAsync(T entity);
     
-    Task<T> GetClientByNameAsync(string name);
+    Task<T> GetEntityByNameAsync(string name);
     
-    Task<T> GetClientByNifAsync(int nif);
+    Task<T> GetEntityByNifAsync(int nif);
+    
+    Task<ICollection<T>> GetAllEntitiesAsync();
     
 }

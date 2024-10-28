@@ -9,7 +9,5 @@ public interface IClientRepository : IEntityRepository<Client>
 {
     
     Task<Client> GetByClientIdAsync(int clientId);
-    
-    Task<ICollection<Client>> GetAllClientsAsync();
 
 }

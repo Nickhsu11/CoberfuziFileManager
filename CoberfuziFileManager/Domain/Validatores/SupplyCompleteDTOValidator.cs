@@ -14,6 +14,6 @@ public class SupplyCompleteDTOValidator : AbstractValidator<SupplyCompleteDTO>
             .MaximumLength(100).WithMessage("Name cannot be more than 100 characters.");
         
         RuleFor(supply => supply.Stock)
-            .GreaterThan(0).WithMessage("Stock must be greater than zero.");
+            .GreaterThanOrEqualTo(0).WithMessage("Stock must be greater than zero.");
     }
 }
